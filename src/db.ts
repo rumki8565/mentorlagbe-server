@@ -1,5 +1,5 @@
 import { MongoClient, Db, Collection } from "mongodb";
-import { User, Tuition, Application, Payment } from "./types";
+import { User, Tuition, Application, Payment } from "./types.js";
 
 let client: MongoClient | null = null;
 let dbPromise: Promise<Db> | null = null;

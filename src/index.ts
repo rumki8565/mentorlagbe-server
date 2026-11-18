@@ -1,9 +1,9 @@
+import "dotenv/config";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import { getDb } from "./db";
-
-dotenv.config();
+import { toNodeHandler } from "better-auth/node";
+import { getDb } from "./db.js";
+import { auth } from "./auth.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 5000;
@@ -12,8 +12,13 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
+
+// BetterAuth handler must come BEFORE express.json()
+app.all("/api/auth/*splat", toNodeHandler(auth));
+
 app.use(express.json());
 
 app.get("/", async (_req: Request, res: Response): Promise<void> => {

@@ -1,6 +1,7 @@
 {
   "name": "mentorlagbe-server",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +12,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "better-auth": "^1.7.25",
     "cors": "^2.8.6",
