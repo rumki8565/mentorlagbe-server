@@ -4,6 +4,13 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { getDb } from "./db.js";
 import { auth } from "./auth.js";
+import jwtRouter from "./routes/jwt.js";
+import {
+  verifyToken,
+  verifyStudent,
+  verifyTutor,
+  verifyAdmin,
+} from "./middleware/auth.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 5000;
@@ -31,6 +38,37 @@ app.get("/", async (_req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: `Database connection failed: ${message}` });
   }
 });
+
+app.use("/api/jwt", jwtRouter);
+
+// TEMPORARY test routes (we remove these in Step 6)
+app.get("/api/me", verifyToken, (req: Request, res: Response): void => {
+  res.json(req.user);
+});
+app.get(
+  "/api/test/student",
+  verifyToken,
+  verifyStudent,
+  (_req: Request, res: Response): void => {
+    res.json({ message: "Hello student" });
+  },
+);
+app.get(
+  "/api/test/tutor",
+  verifyToken,
+  verifyTutor,
+  (_req: Request, res: Response): void => {
+    res.json({ message: "Hello tutor" });
+  },
+);
+app.get(
+  "/api/test/admin",
+  verifyToken,
+  verifyAdmin,
+  (_req: Request, res: Response): void => {
+    res.json({ message: "Hello admin" });
+  },
+);
 
 app.listen(port, (): void => {
   console.log(`Server running on port ${port}`);
