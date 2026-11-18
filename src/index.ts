@@ -6,6 +6,7 @@ import { getDb } from "./db.js";
 import { auth } from "./auth.js";
 import jwtRouter from "./routes/jwt.js";
 import tuitionsRouter from "./routes/tuitions.js";
+import applicationsRouter from "./routes/applications.js";
 import adminRouter from "./routes/admin.js";
 
 const app = express();
@@ -37,6 +38,7 @@ app.get("/", async (_req: Request, res: Response): Promise<void> => {
 
 app.use("/api/jwt", jwtRouter);
 app.use("/api/tuitions", tuitionsRouter);
+app.use("/api/applications", applicationsRouter);
 app.use("/api/admin", adminRouter);
 
 app.listen(port, (): void => {
