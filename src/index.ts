@@ -5,12 +5,8 @@ import { toNodeHandler } from "better-auth/node";
 import { getDb } from "./db.js";
 import { auth } from "./auth.js";
 import jwtRouter from "./routes/jwt.js";
-import {
-  verifyToken,
-  verifyStudent,
-  verifyTutor,
-  verifyAdmin,
-} from "./middleware/auth.js";
+import tuitionsRouter from "./routes/tuitions.js";
+import adminRouter from "./routes/admin.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 5000;
@@ -40,35 +36,8 @@ app.get("/", async (_req: Request, res: Response): Promise<void> => {
 });
 
 app.use("/api/jwt", jwtRouter);
-
-// TEMPORARY test routes (we remove these in Step 6)
-app.get("/api/me", verifyToken, (req: Request, res: Response): void => {
-  res.json(req.user);
-});
-app.get(
-  "/api/test/student",
-  verifyToken,
-  verifyStudent,
-  (_req: Request, res: Response): void => {
-    res.json({ message: "Hello student" });
-  },
-);
-app.get(
-  "/api/test/tutor",
-  verifyToken,
-  verifyTutor,
-  (_req: Request, res: Response): void => {
-    res.json({ message: "Hello tutor" });
-  },
-);
-app.get(
-  "/api/test/admin",
-  verifyToken,
-  verifyAdmin,
-  (_req: Request, res: Response): void => {
-    res.json({ message: "Hello admin" });
-  },
-);
+app.use("/api/tuitions", tuitionsRouter);
+app.use("/api/admin", adminRouter);
 
 app.listen(port, (): void => {
   console.log(`Server running on port ${port}`);
