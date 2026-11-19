@@ -35,7 +35,38 @@ const isDuplicateKeyError = (error: unknown): boolean => {
   );
 };
 
-// GET /api/applications/mine  (student: own applications)
+// GET /api/applications/stats  (student: counts for the overview cards)
+router.get(
+  "/stats",
+  verifyToken,
+  verifyStudent,
+  async (req: Request, res: Response): Promise<void> => {
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+    const applications = await getApplicationsCollection();
+    const [total, pending, accepted, rejected] = await Promise.all([
+      applications.countDocuments({ studentEmail: user.email }),
+      applications.countDocuments({
+        studentEmail: user.email,
+        status: "pending",
+      }),
+      applications.countDocuments({
+        studentEmail: user.email,
+        status: "accepted",
+      }),
+      applications.countDocuments({
+        studentEmail: user.email,
+        status: "rejected",
+      }),
+    ]);
+    res.json({ total, pending, accepted, rejected });
+  },
+);
+
+// GET /api/applications/mine  (student: own applications, with tutor name)
 router.get(
   "/mine",
   verifyToken,
@@ -51,7 +82,27 @@ router.get(
       .find({ studentEmail: user.email })
       .sort({ appliedAt: -1 })
       .toArray();
-    res.json(items);
+
+    const ids: ObjectId[] = items
+      .filter((item: Application) => ObjectId.isValid(item.tuitionId))
+      .map((item: Application) => new ObjectId(item.tuitionId));
+
+    const tuitions = await getTuitionsCollection();
+    const related = await tuitions
+      .find({ _id: { $in: ids } })
+      .project<{ _id: ObjectId; tutorName: string }>({ tutorName: 1 })
+      .toArray();
+
+    const nameById = new Map<string, string>(
+      related.map((tuition) => [tuition._id.toString(), tuition.tutorName]),
+    );
+
+    res.json(
+      items.map((item: Application) => ({
+        ...item,
+        tutorName: nameById.get(item.tuitionId) ?? item.tutorEmail,
+      })),
+    );
   },
 );
 
