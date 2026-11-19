@@ -113,6 +113,45 @@ router.get(
   },
 );
 
+// GET /api/tuitions/mine/stats  (tutor: counts for the overview and post limit)
+router.get(
+  "/mine/stats",
+  verifyToken,
+  verifyTutor,
+  async (req: Request, res: Response): Promise<void> => {
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+    const tuitions = await getTuitionsCollection();
+    const applications = await getApplicationsCollection();
+
+    const [total, approved, pending, applicants] = await Promise.all([
+      tuitions.countDocuments({ tutorEmail: user.email }),
+      tuitions.countDocuments({
+        tutorEmail: user.email,
+        approvalStatus: "approved",
+        isActive: true,
+      }),
+      tuitions.countDocuments({
+        tutorEmail: user.email,
+        approvalStatus: "pending",
+      }),
+      applications.countDocuments({ tutorEmail: user.email }),
+    ]);
+
+    res.json({
+      total,
+      approved,
+      pending,
+      applicants,
+      plan: user.plan,
+      freeLimit: FREE_PLAN_LIMIT,
+    });
+  },
+);
+
 // GET /api/tuitions/:id  (public: one approved & active tuition)
 router.get("/:id", async (req: Request, res: Response): Promise<void> => {
   const id: string = String(req.params.id);
