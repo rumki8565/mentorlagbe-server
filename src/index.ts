@@ -8,6 +8,7 @@ import jwtRouter from "./routes/jwt.js";
 import tuitionsRouter from "./routes/tuitions.js";
 import applicationsRouter from "./routes/applications.js";
 import adminRouter from "./routes/admin.js";
+import paymentsRouter, { handleWebhook } from "./routes/payments.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 5000;
@@ -22,6 +23,13 @@ app.use(
 
 // BetterAuth handler must come BEFORE express.json()
 app.all("/api/auth/*splat", toNodeHandler(auth));
+
+// Stripe webhook needs the raw body, so it also comes BEFORE express.json()
+app.post(
+  "/api/payments/webhook",
+  express.raw({ type: "application/json" }),
+  handleWebhook,
+);
 
 app.use(express.json());
 
@@ -40,6 +48,7 @@ app.use("/api/jwt", jwtRouter);
 app.use("/api/tuitions", tuitionsRouter);
 app.use("/api/applications", applicationsRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/payments", paymentsRouter);
 
 app.listen(port, (): void => {
   console.log(`Server running on port ${port}`);
