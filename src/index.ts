@@ -52,6 +52,10 @@ app.use("/api/admin", adminRouter);
 app.use("/api/payments", paymentsRouter);
 app.use("/api/saved", savedRouter);
 
-app.listen(port, (): void => {
-  console.log(`Server running on port ${port}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(port, (): void => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
+export default app;
