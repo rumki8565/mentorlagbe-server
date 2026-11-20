@@ -15,6 +15,7 @@ export interface User {
   phone?: string;
   bio?: string;
   plan: Plan;
+  savedTuitions?: string[];
   createdAt: Date;
 }
 

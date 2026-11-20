@@ -277,6 +277,17 @@ const STATUS_CYCLE: ApplicationStatus[] = [
   "pending",
 ];
 
+const SUBJECT_BANNERS: Record<string, string> = {
+  Physics: "https://i.ibb.co.com/Lhq2zvST/physics.jpg",
+  Math: "https://i.ibb.co.com/v48ncJ51/math.jpg",
+  Programming: "https://i.ibb.co.com/83tVJsk/programming.jpg",
+  IELTS: "https://i.ibb.co.com/4RHYHj8h/ielts.jpg",
+  Chemistry: "https://i.ibb.co.com/Dg7ksw6x/chemistry.jpg",
+  English: "https://i.ibb.co.com/nNcnh7vW/english.jpg",
+  Biology: "https://i.ibb.co.com/9X9CtJF/biology.jpg",
+  ICT: "https://i.ibb.co.com/0j4yZZT7/ict.jpg",
+};
+
 const emailFor = (slug: string): string => `${slug}@${SEED_DOMAIN}`;
 
 const daysAgo = (days: number): Date => {
@@ -334,7 +345,7 @@ const run = async (): Promise<void> => {
         location: item.location,
         monthlyFee: item.monthlyFee,
         daysPerWeek: item.daysPerWeek,
-        bannerImage: `https://picsum.photos/seed/mentorlagbe-${index + 1}/800/500`,
+        bannerImage: SUBJECT_BANNERS[item.subject],
         description: item.description,
         tutorName: tutor.name,
         tutorEmail: emailFor(tutor.slug),
