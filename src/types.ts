@@ -16,6 +16,7 @@ export interface User {
   bio?: string;
   plan: Plan;
   savedTuitions?: string[];
+  onboarded?: boolean;
   createdAt: Date;
 }
 

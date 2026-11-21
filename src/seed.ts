@@ -284,7 +284,7 @@ const SUBJECT_BANNERS: Record<string, string> = {
   IELTS: "https://i.ibb.co.com/4RHYHj8h/ielts.jpg",
   Chemistry: "https://i.ibb.co.com/Dg7ksw6x/chemistry.jpg",
   English: "https://i.ibb.co.com/nNcnh7vW/english.jpg",
-  Biology: "https://i.ibb.co.com/9X9CtJF/biology.jpg",
+  Biology: "https://i.ibb.co.com/0yvYW8Wv/images-2.jpg",
   ICT: "https://i.ibb.co.com/0j4yZZT7/ict.jpg",
 };
 

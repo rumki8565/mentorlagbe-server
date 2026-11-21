@@ -2,7 +2,7 @@
 
 Express and MongoDB API for the MentorLagbe tuition platform (BetterAuth, JWT role-based middlewares, Stripe).
 
-- **Live API:** <your server URL>
+- **Live API:** https://mentorlagbe-server-puce.vercel.app/
 - **Client Repository:** https://github.com/rumki8565/mentorlagbe-client
 
 ## Key Features
