@@ -2,7 +2,7 @@
 
 Express and MongoDB API for the MentorLagbe tuition platform (BetterAuth, JWT role-based middlewares, Stripe).
 
-- **Live API:** https://mentorlagbe-server-puce.vercel.app/
+- **Live API:** https://mentorlagbe-server-puce.vercel.app
 - **Client Repository:** https://github.com/rumki8565/mentorlagbe-client
 
 ## Key Features
@@ -14,6 +14,8 @@ Express and MongoDB API for the MentorLagbe tuition platform (BetterAuth, JWT ro
 - Stripe Checkout, payment verification and webhook
 - Admin APIs for users, tuition approval, stats and transactions
 - Seed script for demo data (`npm run seed`)
+- Google sign-in provider and one-time role selection for new accounts
+- Saved tuitions and student review APIs
 
 ## NPM Packages Used
 
@@ -38,4 +40,6 @@ BETTER_AUTH_URL=http://localhost:5000
 JWT_SECRET=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
