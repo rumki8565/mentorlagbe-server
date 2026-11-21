@@ -52,6 +52,9 @@ export interface Application {
   studentNote: string;
   status: ApplicationStatus;
   appliedAt: Date;
+  rating?: number;
+  feedback?: string;
+  reviewedAt?: Date;
 }
 
 export interface Payment {

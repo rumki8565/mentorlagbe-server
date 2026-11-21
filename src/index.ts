@@ -11,6 +11,7 @@ import adminRouter from "./routes/admin.js";
 import paymentsRouter, { handleWebhook } from "./routes/payments.js";
 import savedRouter from "./routes/saved.js";
 import usersRouter from "./routes/users.js";
+import reviewsRouter from "./routes/reviews.js";
 
 const app = express();
 const port: number = Number(process.env.PORT) || 5000;
@@ -53,6 +54,7 @@ app.use("/api/admin", adminRouter);
 app.use("/api/payments", paymentsRouter);
 app.use("/api/saved", savedRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/reviews", reviewsRouter);
 
 if (!process.env.VERCEL) {
   app.listen(port, (): void => {
